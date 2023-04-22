@@ -1,51 +1,52 @@
-import * as dotenv from "dotenv";
+"use strict";
 import express from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-// import ejs from "ejs";
+import ejs from "ejs";
+import dotenv from "dotenv/config";
 
-dotenv.config();
 const app = express(), __filename = fileURLToPath(import.meta.url), __dirname = dirname(__filename);
+
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/toDo.html"));
-app.get("/today", (req, res) => {
-  const today = new Date(), currentDay = today.getDay();
-  let day = "";
+app.get("/date", (req, res) => {
+  const date = new Date(), today = date.getDay();
+  let weekDay = "";
 
-  switch (currentDay) {
+  switch (today) {
     case 0:
-      day = "Sunday"
+      weekDay = "Sunday"
       break;
     case 1:
-      day = "Monday"
+      weekDay = "Monday"
       break;
     case 2:
-      day = "Tuesday"
+      weekDay = "Tuesday"
       break;
     case 3:
-      day = "Wednesday"
+      weekDay = "Wednesday"
       break;
     case 4:
-      day = "Thursday"
+      weekDay = "Thursday"
       break;
     case 5:
-      day = "Friday"
+      weekDay = "Friday"
       break;
     case 6:
-      day = "Saturday"
+      weekDay = "Saturday"
       break;
 
     default:
-      console.log(`Error: current day is equal to ${currentDay}`);
+      console.error(`Error: current day's ${today} 🚨`);
       break;
   }
 
-  console.log(`today's ${today}\ncurrentDay's ${currentDay}\ntoday's ${today}`);
-  res.render("list", { kindaDay: day });
+  console.log(`date's ${date}\ntoday's ${today}\nweekDay's ${weekDay}`);
+  res.render("list", { kindaDay: weekDay });
   //* res.render("ejsTemplateFileName", { key: value });
 });
 
